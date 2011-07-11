@@ -1,13 +1,19 @@
 if Rails.env.development? || Rails.env.test?
 
   module SilentPostgresql
-    SILENT_METHODS = %w(table table_exists? indexs column_definitions pk_and_sequence_for last_insert_id)
+    SILENT_METHODS = %w(tables table_exists? indexes column_definitions pk_and_sequence_for last_insert_id)
 
     def self.included(base)
       SILENT_METHODS.each do |m|
         base.send :alias_method_chain, m, :silencer
       end
     end
+
+    class_eval <<-METHOD
+      def shit
+        "puts google"
+      end
+    METHOD
 
     SILENT_METHODS.each do |m|
       aliased_method, punctuation = m.gsub(/([?!=])$/, ''), $1
