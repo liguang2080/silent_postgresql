@@ -1,0 +1,1 @@
+require 'silent_postgresql'
