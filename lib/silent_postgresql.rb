@@ -11,8 +11,6 @@ if Rails.env.development? || Rails.env.test?
 
     SILENT_METHODS.each do |m|
       aliased_method, punctuation = m.gsub(/([?!=])$/, ''), $1
-      p aliased_method
-      p punctuation
       eval <<-METHOD
       def #{aliased_method}_with_silencer#{punctuation}(*args)
         @logger.silence do
