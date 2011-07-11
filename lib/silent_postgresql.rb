@@ -9,15 +9,9 @@ if Rails.env.development? || Rails.env.test?
       end
     end
 
-    class_eval <<-METHOD
-      def shit
-        "puts google"
-      end
-    METHOD
-
     SILENT_METHODS.each do |m|
       aliased_method, punctuation = m.gsub(/([?!=])$/, ''), $1
-      class_eval <<-METHOD
+      eval <<-METHOD
       def #{aliased_method}_with_silencer#{punctuation}(*args)
         @logger.silence do
           #{aliased_method}_without_silencer#{punctuation}(*args)
